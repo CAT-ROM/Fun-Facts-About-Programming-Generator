@@ -1,20 +1,20 @@
-# Fun Facts About Programming
+# Fun Facts About Programming 🎉
 
 This project is a simple web application that displays fun facts about programming. It is built using HTML, CSS, and JavaScript, and is designed to be easily deployed on GitHub Pages.
 
-## Features
+## Features 🌟
 
 - Displays a list of fun facts about programming.
 - Responsive design that works on various screen sizes.
 - Simple and clean user interface.
 
-## Technologies Used
+## Technologies Used 💻
 
 - HTML
 - CSS
 - JavaScript
 
-## Getting Started
+## Getting Started 🚀
 
 To run this project locally, follow these steps:
 
