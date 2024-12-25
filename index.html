@@ -6,36 +6,105 @@
     <title>Fun Facts About Programming</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Arial', sans-serif;
+            background-color: #e9ecef;
             margin: 0;
             padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
         }
 
         .container {
             max-width: 600px;
             margin: auto;
             background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .container:hover {
+            transform: scale(1.02);
         }
 
         h1 {
             text-align: center;
-            color: #333;
+            color: #343a40;
+            margin-bottom: 20px;
+            font-size: 2.5em;
         }
 
         ul {
             list-style-type: none;
             padding: 0;
+            margin: 20px 0;
         }
 
         li {
-            background: #e2e2e2;
-            margin: 10px 0;
-            padding: 10px;
+            background: #f8f9fa;
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s forwards;
+        }
+
+        li:hover {
+            background-color: #e2e6ea;
+            transform: translateY(-3px);
+        }
+
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            color: white;
+            background-color: #007bff;
+            border: none;
             border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            li {
+                padding: 10px;
+            }
+
+            button {
+                font-size: 1em;
+            }
         }
     </style>
 </head>
@@ -43,28 +112,46 @@
     <div class="container">
         <h1>Fun Facts About Programming</h1>
         <ul id="facts-list"></ul>
+        <button id="random-fact-btn">Show Random Fact</button>
     </div>
     <script>
         const facts = [
-            "Ada Lovelace is often considered the first computer programmer, writing algorithms for Charles Babbage's Analytical Engine in the mid-1800s.",
-            "The phrase 'Hello, World!' is commonly used as the first program written by beginners learning a new programming language.",
-            "The open-source software movement began in the late 20th century, promoting the idea that software should be freely available for anyone to use, modify, and distribute.",
-            "There are over 700 programming languages in existence today, with popular ones including Python, Java, JavaScript, and C++.",
-            "The term 'bug' in programming originated from an incident in 1947 when Grace Hopper found a moth causing a malfunction in the Mark II computer.",
-            "The phrase 'Code is Poetry' is part of the mission statement of WordPress, emphasizing that writing code can be an art form.",
-            "Stack Overflow, launched in 2008, has become one of the largest online communities for developers, with millions of questions and answers.",
-            "The Turing Award, named after Alan Turing, is often referred to as the 'Nobel Prize of Computing' for contributions of lasting importance to computing.",
-            "Many programmers are also musicians, as the skills required for programming often overlap with those needed for music composition.",
-            "With the rise of AI and machine learning, programming is evolving, with tools like GitHub Copilot beginning to assist developers."
+            "👩‍💻 Ada Lovelace is often considered the first computer programmer, writing algorithms for Charles Babbage's Analytical Engine in the mid-1800s.",
+            "👋 The phrase 'Hello, World!' is commonly used as the first program written by beginners learning a new programming language.",
+            "🌍 The open-source software movement began in the late 20th century, promoting the idea that software should be freely available for anyone to use, modify, and distribute.",
+            "💻 There are over 700 programming languages in existence today, with popular ones including Python, Java, JavaScript, and C++.",
+            "🐛 The term 'bug' in programming originated from an incident in 1947 when Grace Hopper found a moth causing a malfunction in the Mark II computer.",
+            "🎨 The phrase 'Code is Poetry' is part of the mission statement of WordPress, emphasizing that writing code can be an art form.",
+            "🌐 Stack Overflow, launched in 2008, has become one of the largest online communities for developers, with millions of questions and answers.",
+            "🏆 The Turing Award, named after Alan Turing, is often referred to as the 'Nobel Prize of Computing' for contributions of lasting importance to computing.",
+            "🎶 Many programmers are also musicians, as the skills required for programming often overlap with those needed for music composition.",
+            "🤖 With the rise of AI and machine learning, programming is evolving, with tools like GitHub Copilot beginning to assist developers."
         ];
 
         const factsList = document.getElementById('facts-list');
+        const randomFactBtn = document.getElementById('random-fact-btn');
 
-        facts.forEach(fact => {
-            const li = document.createElement('li');
-            li.textContent = fact;
-            factsList.appendChild(li);
-        });
+        // Function to display all facts
+        function displayFacts() {
+            facts.forEach((fact, index) => {
+                const li = document.createElement('li');
+                li.textContent = fact;
+                li.style.animationDelay = `${index * 0.1}s`; // Staggered animation
+                factsList.appendChild(li);
+            });
+        }
+
+        // Function to show a random fact
+        function showRandomFact() {
+            const randomIndex = Math.floor(Math.random() * facts.length);
+            alert(facts[randomIndex]);
+        }
+
+        // Event listener for the button
+        randomFactBtn.addEventListener('click', showRandomFact);
+
+        // Initial display of facts
+        displayFacts();
     </script>
 </body>
 </html>
