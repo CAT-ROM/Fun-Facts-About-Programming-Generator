@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fun Facts About Programming</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background: #e2e2e2;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Fun Facts About Programming</h1>
+        <ul id="facts-list"></ul>
+    </div>
+    <script>
+        const facts = [
+            "Ada Lovelace is often considered the first computer programmer, writing algorithms for Charles Babbage's Analytical Engine in the mid-1800s.",
+            "The phrase 'Hello, World!' is commonly used as the first program written by beginners learning a new programming language.",
+            "The open-source software movement began in the late 20th century, promoting the idea that software should be freely available for anyone to use, modify, and distribute.",
+            "There are over 700 programming languages in existence today, with popular ones including Python, Java, JavaScript, and C++.",
+            "The term 'bug' in programming originated from an incident in 1947 when Grace Hopper found a moth causing a malfunction in the Mark II computer.",
+            "The phrase 'Code is Poetry' is part of the mission statement of WordPress, emphasizing that writing code can be an art form.",
+            "Stack Overflow, launched in 2008, has become one of the largest online communities for developers, with millions of questions and answers.",
+            "The Turing Award, named after Alan Turing, is often referred to as the 'Nobel Prize of Computing' for contributions of lasting importance to computing.",
+            "Many programmers are also musicians, as the skills required for programming often overlap with those needed for music composition.",
+            "With the rise of AI and machine learning, programming is evolving, with tools like GitHub Copilot beginning to assist developers."
+        ];
+
+        const factsList = document.getElementById('facts-list');
+
+        facts.forEach(fact => {
+            const li = document.createElement('li');
+            li.textContent = fact;
+            factsList.appendChild(li);
+        });
+    </script>
+</body>
+</html>
