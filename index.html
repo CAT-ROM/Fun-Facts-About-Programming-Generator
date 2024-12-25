@@ -3,138 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fun Facts About Programming</title>
+    <title>Programming Facts Game</title>
     <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #2196F3;
+            --accent-color: #FF4081;
+        }
+
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(to right, #6a11cb, #2575fc);
             margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #1a1a1a, #2c3e50);
             color: white;
         }
 
-        .container {
-            max-width: 600px;
-            margin: auto;
+        .game-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
             background: rgba(255, 255, 255, 0.1);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(10px);
+        }
+
+        .score-board {
             text-align: center;
-        }
-
-        h1 {
-            font-size: 2.5em;
+            font-size: 24px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
             margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
-        ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 20px 0;
-        }
-
-        li {
-            background: rgba(255, 255, 255, 0.2);
+        .fact-card {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
             margin: 15px 0;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-            transition: background-color 0.3s ease, transform 0.3s ease;
+            border-radius: 10px;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
             cursor: pointer;
+            position: relative;
         }
 
-        li:hover {
-            background-color: rgba(255, 255, 255, 0.3);
-            transform: translateY(-3px);
+        .fact-card:hover {
+            transform: translateY(-5px) rotate(1deg);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .fact-card.revealed {
+            animation: reveal 0.5s ease-out;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
         }
 
         button {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            font-size: 1.2em;
-            color: white;
-            background-color: #ff4081;
+            padding: 12px 24px;
+            font-size: 1.1em;
             border: none;
-            border-radius: 5px;
+            border-radius: 25px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            background: var(--primary-color);
+            color: white;
+            transition: transform 0.3s, background 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         button:hover {
-            background-color: #ff1f5b;
+            transform: scale(1.05);
+            background: var(--secondary-color);
         }
 
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 2em;
-            }
+        @keyframes reveal {
+            0% { transform: rotateY(180deg); }
+            100% { transform: rotateY(0); }
+        }
 
-            .container {
-                padding: 20px;
-            }
+        .progress-bar {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
 
-            li {
-                padding: 10px;
-            }
+        .progress {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
 
-            button {
-                font-size: 1em;
-            }
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .score-increase {
+            animation: bounce 0.5s ease;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Fun Facts About Programming</h1>
-        <ul id="facts-list"></ul>
-        <button id="random-fact-btn">Show Random Fact</button>
+    <div class="game-container">
+        <div class="score-board">
+            Score: <span id="score">0</span>
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+        </div>
+        <div id="facts-container"></div>
+        <div class="controls">
+            <button onclick="revealNextFact()">Reveal Next Fact</button>
+            <button onclick="shuffleFacts()">Shuffle Facts</button>
+            <button onclick="resetGame()">Reset Game</button>
+        </div>
     </div>
+
     <script>
         const facts = [
-            "👩‍💻 Ada Lovelace is often considered the first computer programmer, writing algorithms for Charles Babbage's Analytical Engine in the mid-1800s.",
-            "👋 The phrase 'Hello, World!' is commonly used as the first program written by beginners learning a new programming language.",
-            "🌍 The open-source software movement began in the late 20th century, promoting the idea that software should be freely available for anyone to use, modify, and distribute.",
-            "💻 There are over 700 programming languages in existence today, with popular ones including Python, Java, JavaScript, and C++.",
-            "🐛 The term 'bug' in programming originated from an incident in 1947 when Grace Hopper found a moth causing a malfunction in the Mark II computer.",
-            "🎨 The phrase 'Code is Poetry' is part of the mission statement of WordPress, emphasizing that writing code can be an art form.",
-            "🌐 Stack Overflow, launched in 2008, has become one of the largest online communities for developers, with millions of questions and answers.",
-            "🏆 The Turing Award, named after Alan Turing, is often referred to as the 'Nobel Prize of Computing' for contributions of lasting importance to computing.",
-            "🎶 Many programmers are also musicians, as the skills required for programming often overlap with those needed for music composition.",
-            "🤖 With the rise of AI and machine learning, programming is evolving, with tools like GitHub Copilot beginning to assist developers."
+            "👩‍💻 Ada Lovelace is often considered the first computer programmer.",
+            "🐛 The term 'bug' came from an actual moth in a computer.",
+            "💻 There are over 700 programming languages.",
+            "🌐 JavaScript was created in just 10 days.",
+            "🤖 Python was named after Monty Python.",
+            "☕ Java was originally called Oak.",
+            "🎮 The first computer game was created in 1961.",
+            "📱 The first smartphone was created in 1994.",
+            "🖥️ The first computer mouse was made of wood.",
+            "🔑 The QWERTY keyboard was designed to slow typing."
         ];
 
-        const factsList = document.getElementById('facts-list');
-        const randomFactBtn = document.getElementById('random-fact-btn');
+        let currentScore = 0;
+        let revealedFacts = 0;
+        let shuffledFacts = [...facts];
 
-        // Function to display all facts
-        function displayFacts() {
-            facts.forEach((fact, index) => {
-                const li = document.createElement('li');
-                li.textContent = fact;
-                li.style.animationDelay = `${index * 0.1}s`; // Staggered animation
-                factsList.appendChild(li);
+        function updateScore(points) {
+            currentScore += points;
+            const scoreElement = document.getElementById('score');
+            scoreElement.textContent = currentScore;
+            scoreElement.classList.add('score-increase');
+            setTimeout(() => scoreElement.classList.remove('score-increase'), 500);
+            
+            const progress = (revealedFacts / facts.length) * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+        }
+
+        function revealNextFact() {
+            if (revealedFacts >= shuffledFacts.length) {
+                alert('Congratulations! You've revealed all facts! Final score: ' + currentScore);
+                return;
+            }
+
+            const factCard = document.createElement('div');
+            factCard.className = 'fact-card revealed';
+            factCard.textContent = shuffledFacts[revealedFacts];
+            
+            factCard.addEventListener('click', () => {
+                updateScore(10);
+                factCard.style.background = 'rgba(76, 175, 80, 0.3)';
             });
+
+            document.getElementById('facts-container').appendChild(factCard);
+            revealedFacts++;
+            updateScore(5);
         }
 
-        // Function to show a random fact
-        function showRandomFact() {
-            const randomIndex = Math.floor(Math.random() * facts.length);
-            alert(facts[randomIndex]);
+        function shuffleFacts() {
+            shuffledFacts = [...facts]
+                .sort(() => Math.random() - 0.5);
+            document.getElementById('facts-container').innerHTML = '';
+            revealedFacts = 0;
+            updateScore(0);
         }
 
-        // Event listener for the button
-        randomFactBtn.addEventListener('click', showRandomFact);
+        function resetGame() {
+            currentScore = 0;
+            revealedFacts = 0;
+            document.getElementById('facts-container').innerHTML = '';
+            document.getElementById('score').textContent = '0';
+            document.getElementById('progress').style.width = '0%';
+            shuffleFacts();
+        }
 
-        // Initial display of facts
-        displayFacts();
+        // Initialize the game
+        shuffleFacts();
     </script>
 </body>
 </html>
