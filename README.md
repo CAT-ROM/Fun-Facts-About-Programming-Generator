@@ -20,4 +20,4 @@ To run this project locally, follow these steps:
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/<your-username>/fun-facts-about-programming.git
+   git clone https://github.com/<CAT-ROM>/fun-facts-about-programming-generator.git
